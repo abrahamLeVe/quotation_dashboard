@@ -11,4 +11,4 @@ export default withAuth({
   },
 });
 
-export const config = { matcher: ["/panel"] };
+export const config = { matcher: ["/panel/:path*"] };
