@@ -59,16 +59,6 @@ export const checkEmailSchema = z.object({
   email: authSchema.shape.email,
 });
 
-export const resetPasswordSchema = z
-  .object({
-    password: authSchema.shape.password,
-    passwordConfirmation: authSchema.shape.password,
-  })
-  .refine((data) => data.password === data.passwordConfirmation, {
-    message: "Las contraseñas no coinciden",
-    path: ["passwordConfirmation"],
-  });
-
 export const userPrivateMetadataSchema = z.object({
   role: z.enum(["user", "admin", "super_admin"]),
   stripePriceId: z.string().optional().nullable(),

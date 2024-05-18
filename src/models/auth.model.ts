@@ -3,12 +3,6 @@ export interface AuthInterface {
   user: User;
 }
 
-export interface registerUserPromps {
-  username: string;
-  password: string;
-  email: string;
-}
-
 export interface loginUserPromps {
   identifier: string;
   password: string;
@@ -23,65 +17,85 @@ export interface User {
   blocked: boolean;
   createdAt: string;
   updatedAt: string;
-  avatar?: Avatar;
-  error?: Error;
+  observer: boolean;
+  role: Role;
+  quotations: Quotation[];
+  payments: Payment[];
 }
 
-export interface ResError {
-  data?: null;
-  error: Error;
-}
-
-export interface Error {
-  status: number;
-  name: string;
-  message: string;
-  details: Details;
-}
-
-interface Details {}
-
-export interface Avatar {
+interface Payment {
   id: number;
-  name: string;
-  alternativeText?: any;
-  caption?: any;
-  width: number;
-  height: number;
-  formats: Formats;
-  hash: string;
-  ext: string;
-  mime: string;
-  size: number;
-  url: string;
-  previewUrl?: any;
-  provider: string;
-  provider_metadata: Providermetadata;
+  payment_id: string;
+  amount: number;
+  status: string;
   createdAt: string;
   updatedAt: string;
+  publishedAt: string;
 }
 
-interface Formats {
-  large: Large;
-  small: Large;
-  medium: Large;
-  thumbnail: Large;
-}
-
-interface Large {
-  ext: string;
-  url: string;
-  hash: string;
-  mime: string;
+interface Quotation {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  email: string;
   name: string;
-  path?: any;
-  size: number;
-  width: number;
-  height: number;
-  provider_metadata: Providermetadata;
+  direction: string;
+  phone: string;
+  dayLimit: number;
+  details: null;
+  notes: string;
+  dateLimit: string;
+  codeStatus: string;
+  products: Product[];
+  tipe_doc: string;
+  location: Location;
+  num_doc: string;
 }
 
-interface Providermetadata {
-  public_id: string;
-  resource_type: string;
+interface Location {
+  distrito: string;
+  provincia: string;
+  departamento: string;
+}
+
+interface Product {
+  id: number;
+  size: null | string;
+  slug: string;
+  title: string;
+  value: number;
+  colors: Color2[];
+  discount: number;
+  quantity: number;
+  picture_url: string;
+}
+
+interface Color2 {
+  id: number;
+  color: Color;
+  quantity: number;
+}
+
+interface Color {
+  id: number;
+  attributes: Attributes;
+}
+
+interface Attributes {
+  code: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  description: string;
+  publishedAt: string;
+}
+
+interface Role {
+  id: number;
+  name: string;
+  description: string;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
 }

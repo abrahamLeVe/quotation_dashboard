@@ -66,17 +66,8 @@ export async function getUserFromApi(jwt: string): Promise<User | undefined> {
         },
       };
 
-      const res = await fetch(
-        `${API_URL}/api/users/me?populate[quotations][populate][0]=pago`,
-        options
-      );
+      const res = await fetch(`${API_URL}/api/users/me?populate=*`, options);
       const userData = await res.json();
-
-      if (userData && userData.quotations) {
-        userData.quotations = userData.quotations.filter(
-          (quotation: any) => quotation.publishedAt !== null
-        );
-      }
 
       return userData;
     } else {
@@ -85,38 +76,6 @@ export async function getUserFromApi(jwt: string): Promise<User | undefined> {
   } catch (error) {
     console.log("Error of getUserFromApi", error);
     return undefined;
-  }
-}
-
-export async function providerFetch(provider?: string, access_token?: string) {
-  try {
-    const options = {
-      method: "GET",
-    };
-
-    const res = await fetch(
-      `${API_URL}/api/auth/${provider}/callback?access_token=${access_token}`,
-      options
-    );
-
-    return await res.json();
-  } catch (error) {
-    console.log("Error of providerAuth", error);
-  }
-}
-
-export async function changePassPost(endpoint: string, payload: any) {
-  try {
-    const res = await fetch(`${API_URL}${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    return res.json();
-  } catch (error) {
-    return error;
   }
 }
 

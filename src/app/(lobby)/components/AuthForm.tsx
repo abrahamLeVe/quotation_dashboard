@@ -51,7 +51,7 @@ export default function SigninForm({ searchParams }: SigninFormProps) {
       email: data.email,
       password: data.password,
       redirect: true,
-      callbackUrl: "/dashboard/order",
+      callbackUrl: "/panel",
     };
 
     try {

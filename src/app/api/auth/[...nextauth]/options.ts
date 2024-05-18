@@ -1,5 +1,5 @@
 import { loginUser } from "@/app/services/auth.service";
-import { getUserFromApi, providerFetch } from "@/lib/api";
+import { getUserFromApi } from "@/lib/api";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -43,6 +43,7 @@ export const options: NextAuthOptions = {
           token.userId = userData?.id;
           token.name = userData?.username;
           token.email = userData?.email;
+          token.role = userData?.role.name;
         }
       } catch (error) {
         console.error("Error processing JWT:", error);
@@ -58,9 +59,6 @@ export const options: NextAuthOptions = {
 
   pages: {
     signIn: "/",
-    signOut: "/auth/signout",
-    error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
-    newUser: "/auth/new-user",
+    error: "/",
   },
 };
