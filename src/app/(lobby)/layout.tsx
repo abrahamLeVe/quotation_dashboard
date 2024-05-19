@@ -8,9 +8,9 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="md:container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0 ">
+    <main className="px-1 md:container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0 h-full overflow-y-auto">
       <div
-        className="relative hidden h-full w-full lg:flex dark:border-r"
+        className="absolute inset-0 h-full w-full lg:relative lg:flex dark:border-r -z-10"
         style={{
           backgroundImage: `url(auth.webp)`,
           backgroundSize: "cover",
@@ -20,9 +20,8 @@ export default function AuthLayout({
       <div className="fixed top-2 right-2">
         <ModeToggle />
       </div>
-      <>
-        <Suspense>{children}</Suspense>
-      </>
+
+      <Suspense>{children}</Suspense>
     </main>
   );
 }

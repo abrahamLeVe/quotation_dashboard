@@ -69,6 +69,7 @@ export default function SigninForm({ searchParams }: SigninFormProps) {
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         <FormField
+          disabled={isLoading}
           control={form.control}
           name="email"
           render={({ field }) => (
@@ -86,6 +87,7 @@ export default function SigninForm({ searchParams }: SigninFormProps) {
           )}
         />
         <FormField
+          disabled={isLoading}
           control={form.control}
           name="password"
           render={({ field }) => (
@@ -98,7 +100,7 @@ export default function SigninForm({ searchParams }: SigninFormProps) {
             </FormItem>
           )}
         />
-        <Button>
+        <Button disabled={isLoading}>
           {isLoading && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"

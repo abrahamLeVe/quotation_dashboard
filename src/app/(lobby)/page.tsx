@@ -11,7 +11,7 @@ export default function SigninPage({
   };
 }) {
   return (
-    <Card className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+    <Card className="mx-auto flex w-full flex-col justify-center space-y-6 max-w-[350px] overflow-y-auto">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
       </CardHeader>

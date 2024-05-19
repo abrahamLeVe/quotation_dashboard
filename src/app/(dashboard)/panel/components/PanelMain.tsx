@@ -22,8 +22,8 @@ import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { AccountSwitcher } from "./account-switcher";
-import { Nav } from "./nav";
+import { PanelNav } from "./PanelNav";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface MailProps {
   accounts: {
@@ -62,7 +62,7 @@ export default function PanelMain({
             sizes
           )}`;
         }}
-        className="h-full max-h-[800px] items-stretch"
+        className="h-full max-h-[90vh] items-stretch relative"
       >
         <ResizablePanel
           defaultSize={defaultLayout[0]}
@@ -77,87 +77,85 @@ export default function PanelMain({
               "min-w-[50px] transition-all duration-300 ease-in-out"
           )}
         >
-          <div
-            className={cn(
-              "flex h-[52px] items-center justify-center",
-              isCollapsed ? "h-[52px]" : "px-2"
-            )}
-          >
-            <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
-          </div>
-          <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Dasboard",
-                label: "",
-                href: "/panel",
-                icon: DashboardIcon,
-              },
-              {
-                title: "Orders",
-                label: "20",
-                icon: File,
-                href: "/panel/orders",
-              },
-              {
-                title: "Sent",
-                label: "",
-                icon: Send,
-              },
-              {
-                title: "Junk",
-                label: "23",
-                icon: ArchiveX,
-              },
-              {
-                title: "Trash",
-                label: "",
-                icon: Trash2,
-              },
-              {
-                title: "Archive",
-                label: "",
-                icon: Archive,
-              },
-            ]}
-          />
-          <Separator />
-          <Nav
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Social",
-                label: "972",
-                icon: Users2,
-              },
-              {
-                title: "Updates",
-                label: "342",
-                icon: AlertCircle,
-              },
-              {
-                title: "Forums",
-                label: "128",
-                icon: MessagesSquare,
-              },
-              {
-                title: "Shopping",
-                label: "8",
-                icon: ShoppingCart,
-              },
-              {
-                title: "Promotions",
-                label: "21",
-                icon: Archive,
-              },
-            ]}
-          />
+          <ScrollArea className="h-full max-h-[85vh] py-2">
+            <PanelNav
+              isCollapsed={isCollapsed}
+              links={[
+                {
+                  title: "Dasboard",
+                  label: "",
+                  href: "/panel",
+                  icon: DashboardIcon,
+                },
+                {
+                  title: "Orders",
+                  label: "20",
+                  icon: File,
+                  href: "/panel/orders",
+                },
+                {
+                  title: "Sent",
+                  label: "",
+                  icon: Send,
+                },
+                {
+                  title: "Junk",
+                  label: "23",
+                  icon: ArchiveX,
+                },
+                {
+                  title: "Trash",
+                  label: "",
+                  icon: Trash2,
+                },
+                {
+                  title: "Archive",
+                  label: "",
+                  icon: Archive,
+                },
+              ]}
+            />
+            <Separator />
+            <PanelNav
+              isCollapsed={isCollapsed}
+              links={[
+                {
+                  title: "Social",
+                  label: "972",
+                  icon: Users2,
+                },
+                {
+                  title: "Updates",
+                  label: "342",
+                  icon: AlertCircle,
+                },
+                {
+                  title: "Forums",
+                  label: "128",
+                  icon: MessagesSquare,
+                },
+                {
+                  title: "Shopping",
+                  label: "8",
+                  icon: ShoppingCart,
+                },
+                {
+                  title: "Promotions",
+                  label: "21",
+                  icon: Archive,
+                },
+              ]}
+            />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </ResizablePanel>
         <ResizableHandle withHandle />
+
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-          <>{children}</>
+          <ScrollArea className="h-full">
+            {children}
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

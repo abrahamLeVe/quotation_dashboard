@@ -27,7 +27,7 @@ interface NavProps {
   }[];
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function PanelNav({ links, isCollapsed }: NavProps) {
   const pathname = usePathname();
 
   return (
