@@ -3,6 +3,7 @@ import { withAuth } from "next-auth/middleware";
 export default withAuth({
   callbacks: {
     authorized: ({ token }) => {
+      console.log("token middleware ", token);
       return token?.role === "Authenticated" || token?.role === "Admin";
     },
   },
