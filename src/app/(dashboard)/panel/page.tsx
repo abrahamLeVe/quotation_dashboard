@@ -1,5 +1,4 @@
-import { Metadata } from "next";
-
+import { paymentsData } from "@/app/services/payment.service";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,16 +8,50 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Metadata } from "next";
 import { CalendarDateRangePicker } from "./components/date-range-picker";
 import { Overview } from "./components/overview";
 import { RecentSales } from "./components/recent-sales";
+export const revalidate = 5;
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: {
+    from?: string;
+    to?: string;
+  };
+}) {
+  const today = new Date();
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const startDate =
+    searchParams.from || firstDayOfMonth.toISOString().split("T")[0];
+  const endDate = searchParams.to || lastDayOfMonth.toISOString().split("T")[0];
+
+  const payments = await paymentsData(startDate, endDate);
+
+  const totalIncome = payments.data.reduce(
+    (sum, payment) => sum + payment.attributes.amount,
+    0
+  );
+
+  const uniqueEmails = new Set(
+    payments.data.map(
+      (payment) => payment.attributes.user.data.attributes.email
+    )
+  );
+  const totalSubscriptions = uniqueEmails.size;
+  const totalSales = payments.data.filter(
+    (payment) => payment.attributes.status === "approved"
+  ).length;
+
   return (
     <div className="flex-col md:flex">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -26,7 +59,7 @@ export default function DashboardPage() {
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
             <CalendarDateRangePicker />
-            <Button>Download</Button>
+            <Button>Descargar</Button>
           </div>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
@@ -47,7 +80,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Revenue
+                    Ingreso totales
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +96,9 @@ export default function DashboardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
+                  <div className="text-2xl font-bold">
+                    S/{totalIncome.toFixed(2)}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last month
                   </p>
@@ -72,7 +107,7 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Subscriptions
+                    Clientes
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +125,9 @@ export default function DashboardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+2350</div>
+                  <div className="text-2xl font-bold">
+                    +{totalSubscriptions}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +180.1% from last month
                   </p>
@@ -98,7 +135,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                  <CardTitle className="text-sm font-medium">Ventas</CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -114,7 +151,7 @@ export default function DashboardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
+                  <div className="text-2xl font-bold">+{totalSales}</div>
                   <p className="text-xs text-muted-foreground">
                     +19% from last month
                   </p>
@@ -139,7 +176,7 @@ export default function DashboardPage() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  {/* <div className="text-2xl font-bold">+{activeNow}</div> */}
                   <p className="text-xs text-muted-foreground">
                     +201 since last hour
                   </p>

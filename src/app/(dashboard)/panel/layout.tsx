@@ -18,17 +18,15 @@ export default function PanelLayout({
   const defaultCollapsed = collapsed ? JSON.parse(collapsed.value) : undefined;
 
   return (
-    <>
-      <div className="border-b">
-        <div className="flex h-16 items-center px-4 gap-2">
-          <TeamSwitcher />
-          <div className="hidden md:block">
-            <MainNav className="mx-6" />
-          </div>
-          <div className="ml-auto flex items-center space-x-4">
-            <Search />
-            <UserNav />
-          </div>
+    <div className="container">
+      <div className="flex h-16 items-center px-4 gap-2">
+        <TeamSwitcher />
+        <div className="hidden md:block">
+          <MainNav className="mx-6" />
+        </div>
+        <div className="ml-auto flex items-center space-x-4">
+          <Search />
+          <UserNav />
         </div>
       </div>
 
@@ -40,6 +38,6 @@ export default function PanelLayout({
       >
         {children}
       </PanelMain>
-    </>
+    </div>
   );
 }
